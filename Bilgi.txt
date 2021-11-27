@@ -1,0 +1,3 @@
+
+Not 1: ders3 ve ders4 modulleri boş. Kendi çalışmalarınız için kullanabilirsiniz.
+Not 2: ilerijavauyg klasörü spring.io dan ürettiğimiz projenin klasörü. Tek başına bir proje olarak açabilirsiniz.

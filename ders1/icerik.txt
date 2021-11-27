@@ -1,0 +1,26 @@
+Ders 1 - Temel Java
+-------------------
+Öğrenmek için siteler:
+https://www.w3schools.com/java/default.asp
+https://www.tutorialspoint.com/java/index.htm
+
+Java(JRE) & JDK
+Derleme
+IDE
+Sınıf
+Obje
+Metod(yapıcılar)
+Değişken(basit türler, kapsamlarına göre çeşitleri)
+İsimlendirme standartları(paket, sınıf, değişken isimleri) & main metodu
+Niteleyiciler
+Yorumlar
+Diziler
+Maddeler
+Ayrılmış Kelimeler
+Aritmetik işlemler
+Karşılaştırma işlemleri
+Bit düzeyi işlemleri
+Mantıksal işlemler
+Atama işlemleri
+Koşul işlemi(tek satırda if)
+
