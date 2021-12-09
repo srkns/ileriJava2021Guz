@@ -9,6 +9,4 @@ public class InputObject {
 
     private String surname;
 
-
-
 }
