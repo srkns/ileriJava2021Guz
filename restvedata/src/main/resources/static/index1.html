@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<title>Kisi Bilgileri</title>
+		<meta charset="UTF-8">
+		<style>
+			table, th, td {
+				border:1px solid blue;
+			}
+		</style>
+		<script>
+			var baseURL = "http://localhost:8080";
+			function kisileriYukle(){
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open("GET", baseURL + "/kisiler", true);
+				xmlHttp.onreadystatechange = function() {
+					if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+						//alert("YAP");
+						var kisiler = JSON.parse(xmlHttp.responseText);
+						var tblTop = `<table style="width: 500px;"><tr><th>AD</th><th>SOYAD</th><th>YAS</th></tr>`;
+						var main = "";
+						for (var i = 0; i < kisiler.length; i++) {
+							main += "<tr>" +
+									"<td style='text-align: center'>" + kisiler[i].name + "</td>" +
+									"<td style='text-align: center'>" + kisiler[i].surname + "</td>" +
+									"<td style='text-align: center'>" + kisiler[i].yas + "</td>" +
+									"</tr>";
+						}
+						var tblBottom = "</table>";
+						var tbl = tblTop + main + tblBottom;
+						//alert("ISTEK YAPILDI VE VERİ GELDİ");
+						document.getElementById("kisiBilgi").innerHTML = tbl;
+					}
+				};
+				xmlHttp.send();
+			}
+			//window.onload = function() {
+			//	kisileriYukle();
+			//}
+		</script>
+	</head>
+	<body>
+		<div><p>Kisiler</p>
+		<div id="kisiBilgi"></div>
+		<br>
+		<input type="button" value = "Kişileri Getir" onclick = "kisileriYukle();" />
+		</div>
+	</body>
+</html>

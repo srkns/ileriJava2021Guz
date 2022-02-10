@@ -1,0 +1,127 @@
+<html>
+	<head>
+		<title>Kisi Bilgileri</title>
+		<meta charSet="UTF-8">
+		<style>
+			table, th, td {
+				border: 1px solid blue;
+			}
+		</style>
+		<script>
+			var baseURL = "http://localhost:8080";
+
+			function kisileriYukle() {
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open("GET", baseURL + "/kisiler", true);
+				xmlHttp.onreadystatechange = function () {
+					if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+						var kisiler = JSON.parse(xmlHttp.responseText);
+						var tblTop = `<table style="width: 500px;"><tr><th>ID</th><th>AD</th><th>SOYAD</th><th>YAS</th><th>GÜNCELLE</th><th>SİL</th></tr>`;
+						var main = "";
+						for (var i = 0; i < kisiler.length; i++) {
+							main += "<tr>" +
+									"<td style='text-align: center'>" + kisiler[i].id + "</td>" +
+									"<td style='text-align: center'>" + kisiler[i].name + "</td>" +
+									"<td style='text-align: center'>" + kisiler[i].surname + "</td>" +
+									"<td style='text-align: center'>" + kisiler[i].yas + "</td>" +
+									"<td style='text-align: center'>" + "<button onclick=\"guncellenecekKisiAyarla(" + kisiler[i].id + ",\'" + kisiler[i].name + "\',\'" + kisiler[i].surname + "\'," + kisiler[i].yas + ")\">" + kisiler[i].id + "'i GÜNCELLE</button>" + "</td>" +
+									"<td style='text-align: center'>" + "<button onclick=\"silinecekKisiIdAyarla(" + kisiler[i].id + ")\">" + kisiler[i].id + "'i SİL</button>" + "</td>" +
+									"</tr>";
+						}
+						var tblBottom = "</table>";
+						var tbl = tblTop + main + tblBottom;
+						document.getElementById("kisiBilgi").innerHTML = tbl;
+					}
+				};
+				xmlHttp.send();
+			}
+
+			function kisiEkle() {
+				const params = {
+					name : document.getElementById("name").value,
+					surname : document.getElementById("surname").value,
+					yas : document.getElementById("yas").value
+				}
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open("POST", baseURL + "/kisiekle", true);
+				xmlHttp.setRequestHeader('Content-type', 'application/json');
+				xmlHttp.onreadystatechange = function () {
+					if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+						alert(xmlHttp.responseText);
+						kisileriYukle();
+					}
+				};
+				xmlHttp.send(JSON.stringify(params));
+			}
+
+			function kisiSil() {
+				var xmlHttp = new XMLHttpRequest();
+				var endString = "?id=" + document.getElementById("id").value;
+				alert(endString);
+				xmlHttp.open("GET", baseURL + "/kisisil" + endString, true);
+				xmlHttp.onreadystatechange = function () {
+					if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+						alert(xmlHttp.responseText);
+						kisileriYukle();
+					}
+				};
+				xmlHttp.send();
+			}
+
+			function silinecekKisiIdAyarla(id_deger) {
+				document.getElementById("id").value = id_deger;
+			}
+
+			function guncellenecekKisiAyarla(id_degeri, ad_degeri, soyad_degeri, yas_degeri) {
+				document.getElementById("guncelle_id").value = id_degeri;
+				document.getElementById("guncelle_name").value = ad_degeri;
+				document.getElementById("guncelle_surname").value = soyad_degeri;
+				document.getElementById("guncelle_yas").value = yas_degeri;
+			}
+
+			function kisiGuncelle() {
+				const params = {
+					id : document.getElementById("guncelle_id").value,
+					name : document.getElementById("guncelle_name").value,
+					surname : document.getElementById("guncelle_surname").value,
+					yas : document.getElementById("guncelle_yas").value
+				}
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open("POST", baseURL + "/kisiguncelle", true);
+				xmlHttp.setRequestHeader('Content-type', 'application/json');
+				xmlHttp.onreadystatechange = function () {
+					if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+						alert(xmlHttp.responseText);
+						kisileriYukle();
+					}
+				};
+				xmlHttp.send(JSON.stringify(params));
+			}
+		</script>
+	</head>
+	<body>
+		<div>
+			<p>Kisiler</p>
+			<div id="kisiBilgi"><p>Kişileri yüklemek için aşağıdaki butona tıklayınız!</p></div>
+			<br>
+			<input type="button" value="Kişileri Getir" onclick="kisileriYukle();"/>
+			<br>
+			<br>
+			<input type="text" id="name" placeholder="ad girin">
+			<input type="text" id="surname" placeholder="soyad girin">
+			<input type="text" id="yas" placeholder="yaş girin">
+			<input type="button" value="Kişi Ekle" onclick="kisiEkle();"/>
+			<br>
+			<br>
+			<input type="text" id="id" placeholder="id girin">
+			<input type="button" value="Kişi Sil" onclick="kisiSil();"/>
+			<br>
+			<br>
+			<input type="text" id="guncelle_id" disabled="true">
+			<input type="text" id="guncelle_name" placeholder="ad girin">
+			<input type="text" id="guncelle_surname" placeholder="soyad girin">
+			<input type="text" id="guncelle_yas" placeholder="yaş girin">
+			<input type="button" value="Kişi Güncelle" onclick="kisiGuncelle();"/>
+		</div>
+	</body>
+</html>
